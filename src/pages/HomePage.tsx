@@ -1,158 +1,157 @@
 import Icon from "@/components/ui/icon";
 
+interface HomePageProps {
+  onNavigate: (page: string) => void;
+}
+
 const stats = [
-  { label: "Администраторы", value: "12", icon: "Shield", color: "#a855f7", glow: "rgba(168,85,247,0.3)" },
-  { label: "Лидеры", value: "8", icon: "Crown", color: "#ec4899", glow: "rgba(236,72,153,0.3)" },
-  { label: "Заместители", value: "24", icon: "Users", color: "#3b82f6", glow: "rgba(59,130,246,0.3)" },
-  { label: "Активности", value: "156", icon: "Activity", color: "#06b6d4", glow: "rgba(6,182,212,0.3)" },
+  { label: "Администраторов", value: "12", icon: "Shield", color: "#6d5acd" },
+  { label: "Лидеров", value: "8", icon: "Crown", color: "#3b82f6" },
+  { label: "Заместителей", value: "24", icon: "Users", color: "#06b6d4" },
+  { label: "Заявок в ожидании", value: "3", icon: "FileText", color: "#22c55e" },
 ];
 
 const auditLog = [
-  { user: "Алексей К.", action: "Добавил администратора Иванов А.", time: "2 мин назад", type: "create", icon: "UserPlus" },
-  { user: "Мария С.", action: "Одобрила заявку #1042", time: "15 мин назад", type: "approve", icon: "CheckCircle" },
-  { user: "Дмитрий П.", action: "Изменил права лидера", time: "1 час назад", type: "edit", icon: "Edit" },
-  { user: "Система", action: "Резервная копия базы данных", time: "3 часа назад", type: "system", icon: "Database" },
-  { user: "Алексей К.", action: "Удалил заявку #988", time: "5 часов назад", type: "delete", icon: "Trash2" },
-  { user: "Ольга В.", action: "Вошла в систему", time: "вчера", type: "auth", icon: "LogIn" },
+  { user: "Алексей К.", action: "Одобрил заявку #1042", time: "2 мин назад", icon: "CheckCircle", color: "#22c55e" },
+  { user: "Мария С.", action: "Добавила заместителя Козлов В.", time: "18 мин назад", icon: "UserPlus", color: "#6d5acd" },
+  { user: "Дмитрий П.", action: "Изменил права лидера Орлова Н.", time: "1 час назад", icon: "Edit", color: "#3b82f6" },
+  { user: "Система", action: "Резервная копия создана", time: "3 часа назад", icon: "Database", color: "#f97316" },
+  { user: "Алексей К.", action: "Отклонил заявку #1039", time: "5 часов назад", icon: "XCircle", color: "#ef4444" },
+  { user: "Ольга В.", action: "Вошла в систему", time: "вчера", icon: "LogIn", color: "#06b6d4" },
 ];
 
-const typeColors: Record<string, string> = {
-  create: "#22c55e",
-  approve: "#a855f7",
-  edit: "#3b82f6",
-  system: "#f97316",
-  delete: "#ef4444",
-  auth: "#06b6d4",
-};
-
-const quickLinks = [
-  { label: "Новый администратор", icon: "UserPlus", page: "admins" },
-  { label: "Принять заявку", icon: "FileCheck", page: "requests" },
-  { label: "Добавить активность", icon: "Plus", page: "activities" },
-];
-
-export default function HomePage() {
+export default function HomePage({ onNavigate }: HomePageProps) {
   return (
-    <div className="p-6 space-y-6">
-      {/* Header */}
-      <div className="animate-fade-in">
-        <div className="flex items-center gap-2 mb-1">
-          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse-slow" />
-          <span className="text-xs text-muted-foreground font-medium uppercase tracking-widest">Система активна</span>
+    <div className="max-w-7xl mx-auto px-6 py-10 space-y-10">
+      {/* Hero */}
+      <section className="text-center py-12 animate-slide-up">
+        <h1
+          className="mb-4 text-white font-display"
+          style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 800, fontSize: "clamp(2rem,5vw,3.5rem)", lineHeight: 1.1 }}
+        >
+          Твой путь начинается здесь
+        </h1>
+        <p className="text-slate-400 text-base max-w-xl mx-auto mb-8 leading-relaxed">
+          Присоединяйся к лучшему игровому сообществу. Управляй своими достижениями, следи за активностью и стань легендой.
+        </p>
+        <div className="flex items-center justify-center gap-3 flex-wrap">
+          <button
+            onClick={() => onNavigate("register")}
+            className="btn-purple flex items-center gap-2 text-sm px-5 py-2.5"
+          >
+            <Icon name="UserPlus" size={15} />
+            Присоединиться
+          </button>
+          <button className="btn-outline-dark flex items-center gap-2 text-sm px-5 py-2.5">
+            <Icon name="MessageSquare" size={15} />
+            Discord
+          </button>
+          <button className="btn-outline-dark flex items-center gap-2 text-sm px-5 py-2.5">
+            <Icon name="ExternalLink" size={15} />
+            VK
+          </button>
         </div>
-        <h1 className="font-display text-3xl font-bold gradient-text">Панель управления</h1>
-        <p className="text-muted-foreground text-sm mt-1">Добро пожаловать, Администратор — 3 апреля 2026</p>
-      </div>
+      </section>
 
-      {/* Stats grid */}
+      <div style={{ borderTop: "1px solid hsl(222 30% 14%)" }} />
+
+      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((s, i) => (
           <div
             key={s.label}
-            className={`glass glass-hover rounded-xl p-4 cursor-pointer animate-fade-in stagger-${i + 1}`}
+            className={`card-dark p-5 animate-fade-in stagger-${i + 1}`}
+            style={{ animationFillMode: "forwards" }}
           >
-            <div className="flex items-start justify-between mb-3">
-              <div
-                className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: `${s.glow}`, boxShadow: `0 0 16px ${s.glow}` }}
-              >
-                <Icon name={s.icon} fallback="Circle" size={20} style={{ color: s.color }} />
-              </div>
-              <span className="text-xs text-muted-foreground glass rounded-full px-2 py-0.5">↑ 12%</span>
+            <div
+              className="w-9 h-9 rounded-lg flex items-center justify-center mb-3"
+              style={{ background: `${s.color}20` }}
+            >
+              <Icon name={s.icon} fallback="Circle" size={18} style={{ color: s.color }} />
             </div>
-            <p className="font-display text-3xl font-bold text-white">{s.value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{s.label}</p>
+            <p className="text-2xl font-bold text-white">{s.value}</p>
+            <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Audit log */}
-        <div className="lg:col-span-2 glass rounded-xl p-5 animate-fade-in stagger-5">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center gap-2">
-              <Icon name="ScrollText" fallback="List" size={18} className="text-purple-400" />
-              <h2 className="font-display text-lg font-semibold text-white">Аудит-лог</h2>
-            </div>
-            <span className="text-xs text-purple-400 glass rounded-full px-3 py-1 cursor-pointer hover:text-purple-300 transition-colors">
-              Все записи →
-            </span>
-          </div>
-          <div className="space-y-2">
-            {auditLog.map((entry, i) => (
+      {/* Audit log */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-base font-bold text-white">Лог действий</h2>
+          <span className="text-xs text-slate-600">Обновлено только что</span>
+        </div>
+        <div className="card-dark overflow-hidden">
+          {auditLog.map((entry, i) => (
+            <div
+              key={i}
+              className="flex items-center gap-4 px-5 py-3.5 hover:bg-white/[0.025] transition-colors"
+              style={{ borderBottom: i < auditLog.length - 1 ? "1px solid hsl(222 30% 14%)" : "none" }}
+            >
               <div
-                key={i}
-                className={`flex items-start gap-3 p-3 rounded-lg transition-all duration-200 cursor-default
-                  hover:bg-white/5 animate-fade-in`}
-                style={{ animationDelay: `${0.05 * i}s` }}
+                className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0"
+                style={{ background: `${entry.color}18`, border: `1px solid ${entry.color}35` }}
               >
-                <div
-                  className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{
-                    background: `${typeColors[entry.type]}22`,
-                    border: `1px solid ${typeColors[entry.type]}44`,
-                  }}
-                >
-                  <Icon name={entry.icon} fallback="Circle" size={13} style={{ color: typeColors[entry.type] }} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm text-white font-medium truncate">{entry.action}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{entry.user}</p>
-                </div>
-                <span className="text-xs text-muted-foreground flex-shrink-0">{entry.time}</span>
+                <Icon name={entry.icon} fallback="Circle" size={13} style={{ color: entry.color }} />
               </div>
-            ))}
+              <div className="flex-1 min-w-0">
+                <span className="text-sm text-slate-200">{entry.action}</span>
+                <span className="text-xs text-slate-600 ml-2">{entry.user}</span>
+              </div>
+              <span className="text-xs text-slate-600 flex-shrink-0">{entry.time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Quick cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pb-6">
+        <div
+          className="card-dark p-6 cursor-pointer transition-all hover:border-purple-700/40"
+          onClick={() => onNavigate("register")}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#6d5acd22" }}>
+              <Icon name="UserPlus" size={18} style={{ color: "#6d5acd" }} />
+            </div>
+            <div>
+              <p className="font-bold text-white">Регистрация</p>
+              <p className="text-xs text-slate-500">Создайте новый аккаунт</p>
+            </div>
           </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button className="btn-outline-dark text-xs py-2 flex items-center justify-center gap-1.5">
+              <Icon name="MessageSquare" size={13} /> Discord
+            </button>
+            <button className="btn-outline-dark text-xs py-2 flex items-center justify-center gap-1.5">
+              <Icon name="ExternalLink" size={13} /> VK
+            </button>
+          </div>
+          <p className="text-center text-xs text-slate-600 mt-2">или</p>
         </div>
 
-        {/* Right column */}
-        <div className="space-y-4">
-          {/* Quick actions */}
-          <div className="glass rounded-xl p-5 animate-fade-in stagger-6">
-            <div className="flex items-center gap-2 mb-4">
-              <Icon name="Zap" size={18} className="text-yellow-400" />
-              <h2 className="font-display text-lg font-semibold text-white">Быстрые действия</h2>
+        <div
+          className="card-dark p-6 cursor-pointer transition-all hover:border-blue-700/40"
+          onClick={() => onNavigate("requests")}
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: "#3b82f622" }}>
+              <Icon name="LogIn" size={18} style={{ color: "#3b82f6" }} />
             </div>
-            <div className="space-y-2">
-              {quickLinks.map((link) => (
-                <button
-                  key={link.label}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm text-white font-medium
-                    transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-                  style={{
-                    background: "linear-gradient(135deg, rgba(168,85,247,0.15), rgba(236,72,153,0.1))",
-                    border: "1px solid rgba(168,85,247,0.2)",
-                  }}
-                >
-                  <Icon name={link.icon} fallback="Circle" size={16} className="text-purple-400" />
-                  {link.label}
-                </button>
-              ))}
+            <div>
+              <p className="font-bold text-white">Заявки</p>
+              <p className="text-xs text-slate-500">С возвращением в систему</p>
             </div>
           </div>
-
-          {/* System status */}
-          <div className="glass rounded-xl p-5 animate-fade-in stagger-7">
-            <div className="flex items-center gap-2 mb-4">
-              <Icon name="Server" size={18} className="text-cyan-400" />
-              <h2 className="font-display text-lg font-semibold text-white">Состояние системы</h2>
-            </div>
-            <div className="space-y-3">
-              {[
-                { label: "База данных", status: "Онлайн", ok: true },
-                { label: "API сервер", status: "Онлайн", ok: true },
-                { label: "Резервные копии", status: "Обновлено", ok: true },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">{item.label}</span>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`w-1.5 h-1.5 rounded-full ${item.ok ? "bg-green-400" : "bg-red-400"} animate-pulse-slow`} />
-                    <span className={`text-xs font-medium ${item.ok ? "text-green-400" : "text-red-400"}`}>{item.status}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="grid grid-cols-2 gap-2">
+            <button className="btn-outline-dark text-xs py-2 flex items-center justify-center gap-1.5">
+              <Icon name="MessageSquare" size={13} /> Discord
+            </button>
+            <button className="btn-outline-dark text-xs py-2 flex items-center justify-center gap-1.5">
+              <Icon name="ExternalLink" size={13} /> VK
+            </button>
           </div>
+          <p className="text-center text-xs text-slate-600 mt-2">или</p>
         </div>
       </div>
     </div>
