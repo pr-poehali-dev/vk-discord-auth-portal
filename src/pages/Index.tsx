@@ -1,14 +1,34 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Layout from "@/components/Layout";
+import HomePage from "./HomePage";
+import RegisterPage from "./RegisterPage";
+import AdminsPage from "./AdminsPage";
+import LeadersPage from "./LeadersPage";
+import DeputiesPage from "./DeputiesPage";
+import ActivitiesPage from "./ActivitiesPage";
+import RequestsPage from "./RequestsPage";
+import ProfilePage from "./ProfilePage";
 
-const Index = () => {
+export default function Index() {
+  const [page, setPage] = useState("home");
+
+  const renderPage = () => {
+    switch (page) {
+      case "home": return <HomePage />;
+      case "register": return <RegisterPage />;
+      case "admins": return <AdminsPage />;
+      case "leaders": return <LeadersPage />;
+      case "deputies": return <DeputiesPage />;
+      case "activities": return <ActivitiesPage />;
+      case "requests": return <RequestsPage />;
+      case "profile": return <ProfilePage />;
+      default: return <HomePage />;
+    }
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4 color-black text-black">Добро пожаловать!</h1>
-        <p className="text-xl text-gray-600">тут будет отображаться ваш проект</p>
-      </div>
-    </div>
+    <Layout activePage={page} onNavigate={setPage}>
+      {renderPage()}
+    </Layout>
   );
-};
-
-export default Index;
+}
